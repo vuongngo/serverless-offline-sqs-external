@@ -132,24 +132,23 @@ class ServerlessOfflineSQSExternal {
     this.serverless.cli.log(`${streamName} (λ: ${functionName})`);
 
     const config = this.getConfig();
+    const awsRegion = config.region || 'us-east-1';
+    const awsAccountId = config.accountId || '000000000000';
+    const eventSourceARN = typeof queueEvent.arn === 'string'
+      ? queueEvent.arn
+      : `arn:aws:sqs:${awsRegion}:${awsAccountId}:${streamName}`;
 
     const func = this.service.getFunction(functionName);
 
     const { env } = process;
     const functionEnv = {
-      ...({ AWS_REGION: this?.service?.provider?.region }),
+      ...({ AWS_REGION: awsRegion }),
       ...(env || {}),
       ...(this?.service?.provider?.environment || {}),
       ...(func?.environment || {}),
     };
 
     process.env = functionEnv;
-
-    const awsRegion = config.region || 'us-west-2';
-    const awsAccountId = config.accountId || '000000000000';
-    const eventSourceARN = typeof queueEvent.arn === 'string'
-      ? queueEvent.arn
-      : `arn:aws:sqs:${awsRegion}:${awsAccountId}:${streamName}`;
 
     const event = {
       Records: messages.map(
@@ -178,6 +177,7 @@ class ServerlessOfflineSQSExternal {
     const lambdaConfig = {
       apiVersion: '2015-03-31',
       endpoint: new Endpoint(offlineConfg.endpoint),
+      region: awsRegion,
       credentials: new Credentials({
         accessKeyId: 'foo',
         secretAccessKey: 'bar',

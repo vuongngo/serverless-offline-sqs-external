@@ -1,6 +1,6 @@
 {
   "name": "serverless-offline-sqs-external",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Emulate AWS Lambda ans SQS locally by listening to external SQS",
   "main": "dist",
   "files": [
@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "sls offline",
-    "build": "babel src --presets @babel/preset-env --out-dir dist --ignore '**/*.test.js'",
+    "build": "babel src --out-dir dist --ignore '**/*.test.js' --source-maps",
     "build:watch": "yarn run build --watch",
     "test": "mocha --require @babel/register --opts ./test/mocha.opts ./src/**/*.test.js",
     "start:docker": "docker-compose up --abort-on-container-exit",

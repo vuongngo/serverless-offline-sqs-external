@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  localstack:
+    image: localstack/localstack
+    environment:
+      - SERVICES=sqs
+      - AWS_ACCESS_KEY_ID=foobar
+      - AWS_SECRET_ACCESS_KEY=foobar
+    ports:
+      - "4566-4599:4566-4599"
+      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  test:
+    image: node:12.16.3-buster-slim
+    depends_on:
+      - localstack
+    volumes:
+      - .:/app
+      - nodeModules:/app/node_modules
+    working_dir: /app
+    command: bash -c "yarn install && chmod 777 ./wait-for-it.sh && ./wait-for-it.sh localstack:4576 -t 60 && yarn start"
+
+volumes:
+  nodeModules:

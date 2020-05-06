@@ -1,0 +1,59 @@
+{
+  "name": "serverless-offline-sqs-external",
+  "version": "1.0.0",
+  "description": "Emulate AWS Lambda ans SQS locally by listening to external SQS",
+  "main": "dist",
+  "files": [
+    "dist/index.js",
+    "dist/helpers.js"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": "Vuong Ngo",
+  "license": "ISC",
+  "keywords": [
+    "sqs",
+    "localstack",
+    "serverless",
+    "serverless-offline",
+    "lambda"
+  ],
+  "scripts": {
+    "start": "sls offline",
+    "build": "./node_modules/.bin/babel src --presets @babel/preset-env --out-dir dist --ignore '**/*.test.js'",
+    "build:watch": "yarn run build --watch",
+    "test": "./node_modules/.bin/mocha --require @babel/register --opts ./test/mocha.opts ./src/**/*.test.js",
+    "start:docker": "docker-compose up --abort-on-container-exit",
+    "lint": "eslint ./src/",
+    "fixcode": "eslint --cache --quiet --fix ./src/"
+  },
+  "peerDependencies": {
+    "aws-sdk": ">= 2.476.0"
+  },
+  "dependencies": {
+    "figures": "^3.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/register": "^7.4.4",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.0.6",
+    "aws-sdk": "^2.622.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "serverless": "^1.69.0",
+    "serverless-offline": "^6.1.5",
+    "serverless-webpack": "^5.3.1",
+    "webpack": "^4.42.0"
+  }
+}

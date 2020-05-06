@@ -1,0 +1,60 @@
+service: sql-offline
+
+plugins:
+  - ./dist/index.js
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  sqsListener: 'test-sqs'
+  serverless-offline:
+    port: 5000
+  serverless-offline-sqs-external:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    host: localstack
+    port: 4576
+    https: false
+    region: us-east-1
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  stage: ${self:custom.currentStage}
+  timeout: 10
+  region: us-east-1
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource:
+        - "arn:aws:sqs:${self:provider.region}:*:${self:custom.sqsListener}"
+
+functions:
+  main:
+    handler: lambdas/index.handler
+
+  sqs:
+    handler: lambdas/worker.handler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - SqsListener
+              - Arn
+          batchSize: 1
+
+resources:
+  Resources:
+    SqsListener:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:custom.sqsListener}
+        DelaySeconds: 120

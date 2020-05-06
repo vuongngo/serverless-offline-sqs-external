@@ -1,0 +1,15 @@
+docker_node_modules_cache/
+node_modules/
+test/
+lambdas/
+.webpack/
+
+docker-compose-tdd.yml
+docker-compose.yml
+serverless.yml
+wait-for-it.sh
+webpack.config.js
+
+yarn.lock
+tsconfig.json
+.npmrc

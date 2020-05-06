@@ -14,9 +14,7 @@ custom:
   serverless-offline-sqs-external:
     autoCreate: true
     apiVersion: '2012-11-05'
-    host: localstack
-    port: 4576
-    https: false
+    endpoint: 'http://localstack:4576'
     region: us-east-1
     accessKeyId: root
     secretAccessKey: root

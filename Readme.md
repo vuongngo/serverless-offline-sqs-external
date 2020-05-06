@@ -93,3 +93,15 @@ custom:
     secretAccessKey: root
     skipCacheInvalidation: false
 ```
+
+```yml
+custom:
+  serverless-offline-sqs-external:
+    autoCreate: true                 # create queue if not exists
+    apiVersion: '2012-11-05'
+    endpoint: 'http://localhost:9324'
+    region: eu-west-1
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
+```

@@ -1,6 +1,7 @@
 import {
   Credentials, Endpoint, SQS, Lambda,
 } from 'aws-sdk';
+import { URL } from 'url';
 
 import {
   isEmpty,
@@ -38,8 +39,17 @@ class ServerlessOfflineSQSExternal {
 
   getSqsConfig() {
     const config = this.service.custom?.['serverless-offline-sqs-external'] || {};
-    const { host = 'localhost', port = 4576, https = false } = config;
-    const endpoint = `${https ? 'https://' : 'http://'}${host}:${port}`;
+    let {
+      endpoint, host = 'localhost', port = 4576, https = false,
+    } = config;
+    if (!endpoint) {
+      endpoint = `${https ? 'https://' : 'http://'}${host}:${port}`;
+    } else {
+      const url = new URL(endpoint);
+      host = url.hostname;
+      port = url.port;
+      https = url.protocol;
+    }
     return {
       ...config,
       host,

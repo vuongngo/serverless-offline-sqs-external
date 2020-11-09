@@ -33,7 +33,7 @@ class ServerlessOfflineSQSExternal {
     const config = this.service.custom?.['serverless-offline'] || {};
     return {
       ...config,
-      endpoint: config.endpoint || getLambdaPort(),
+      endpoint: config.endpoint || this.getLambdaPort(),
     };
   }
 

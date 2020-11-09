@@ -33,8 +33,17 @@ class ServerlessOfflineSQSExternal {
     const config = this.service.custom?.['serverless-offline'] || {};
     return {
       ...config,
-      endpoint: config.endpoint || 'http://localhost:3002',
+      endpoint: config.endpoint || getLambdaPort(),
     };
+  }
+
+  getLambdaPort() {
+    const serverlessOfflineConfig = this.service.custom?.['serverless-offline'] || {};
+    if (serverlessOfflineConfig.lambdaPort) {
+      return `http://localhost:${serverlessOfflineConfig.lambdaPort}`
+    } else {
+      return 'http://localhost:3002'
+    }
   }
 
   getSqsConfig() {

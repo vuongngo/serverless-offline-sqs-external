@@ -22,6 +22,7 @@
   "scripts": {
     "start": "sls offline",
     "build": "babel src --out-dir dist --ignore '**/*.test.js' --source-maps",
+    "prepare": "npm run build",
     "build:watch": "yarn run build --watch",
     "test": "mocha --require @babel/register --opts ./test/mocha.opts ./src/**/*.test.js",
     "start:docker": "docker-compose up --abort-on-container-exit",

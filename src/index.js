@@ -186,7 +186,7 @@ class ServerlessOfflineSQSExternal {
     const lambda = new Lambda(lambdaConfig);
 
     const params = {
-      FunctionName: `${this.service.service}-${this.service.provider.stage}-${functionName}`,
+      FunctionName: func.name,
       InvocationType: 'Event',
       Payload: JSON.stringify(event),
     };
@@ -260,7 +260,7 @@ class ServerlessOfflineSQSExternal {
 
       if (!isEmpty(queues)) {
         printBlankLine();
-        this.serverless.cli.log(`SQS for ${functionName}:`);
+        this.serverless.cli.log(`SQS for ${functionName} (exposed as ${_function.name}):`);
       }
 
       queues.forEach((queueEvent) => {

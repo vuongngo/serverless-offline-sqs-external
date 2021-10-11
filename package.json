@@ -1,7 +1,7 @@
 {
   "name": "serverless-offline-sqs-external",
-  "version": "1.0.4",
-  "description": "Emulate AWS Lambda ans SQS locally by listening to external SQS",
+  "version": "1.0.7",
+  "description": "Emulate AWS Lambda and SQS locally by listening to external SQS",
   "main": "dist",
   "files": [
     "dist/index.js",
